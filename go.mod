@@ -1,4 +1,4 @@
-module homework1
+module homework1.0
 
 go 1.23.2
 

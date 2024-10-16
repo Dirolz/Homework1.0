@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"homework1/internal/pkg/storage"
+
+	"homework1.0/internal/pkg/storage"
 )
 
 func main() {

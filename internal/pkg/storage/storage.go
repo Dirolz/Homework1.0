@@ -41,14 +41,14 @@ func (r Storage) Set(key string, value string) {
 			newValue, _ := strconv.Atoi(value)
 			x = Value{
 				d:         newValue,
-				ValueType: "int",
+				ValueType: "D",
 			}
 		}
 	case "S":
 		{
 			x = Value{
 				s:         value,
-				ValueType: "string",
+				ValueType: "S",
 			}
 		}
 	}
