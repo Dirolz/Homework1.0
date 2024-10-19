@@ -7,9 +7,9 @@ import (
 )
 
 type Value struct {
-	s         string
-	d         int
-	ValueType string
+	StringField string
+	IntField    int
+	ValueType   string
 }
 
 type Storage struct {
@@ -33,23 +33,17 @@ func NewStorage() (*Storage, error) {
 }
 
 func (r Storage) Set(key string, value string) {
-	TypeOfvalue := r.GetKind(value)
+	newValue, err := strconv.Atoi(value)
 	var x Value
-	switch TypeOfvalue {
-	case "D":
-		{
-			newValue, _ := strconv.Atoi(value)
-			x = Value{
-				d:         newValue,
-				ValueType: "D",
-			}
+	if err == nil {
+		x = Value{
+			IntField:  newValue,
+			ValueType: "D",
 		}
-	case "S":
-		{
-			x = Value{
-				s:         value,
-				ValueType: "S",
-			}
+	} else {
+		x = Value{
+			StringField: value,
+			ValueType:   "S",
 		}
 	}
 	r.inner[key] = x
@@ -67,10 +61,13 @@ func (r *Storage) Get(key string) *Value {
 }
 
 func (r *Storage) GetKind(key string) string {
-	if _, err := strconv.Atoi(key); err == nil {
-		return "D"
+	var current = r.Get(key)
+	if current == nil {
+		r.logger.Info("no such key in the storage")
+		r.logger.Sync()
+		return "no such key in storage"
 	}
-	return "S"
+	return (*current).ValueType
 }
 
 func (r *Storage) GetType(key string) string {
